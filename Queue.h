@@ -140,18 +140,19 @@ template<class T>
 Queue<T>::Queue(const Queue<T>& queue)
 {
     Node* nodeToCopy = queue.m_front;
-    while (nodeToCopy != nullptr)
+    try
     {
-        try
+        while (nodeToCopy != nullptr)
         {
+
             pushBack(nodeToCopy->m_data);
+            nodeToCopy = nodeToCopy->m_next;
         }
-        catch (...)
-        {
-            deleteQueue(m_front);
-            throw;
-        }
-        nodeToCopy = nodeToCopy->m_next;
+    }
+    catch (...)
+    {
+        deleteQueue(m_front);
+        throw;
     }
     // m_back changed in pushBack
 }
@@ -286,7 +287,7 @@ Queue<T> filter(const Queue<T>& constQueue, Condition condition)
 
 
 /** --------------------------------------------------------------------------------------------------
- * Implementing Iterator classe:
+ * Implementing Iterator class:
  * we provide three operator as requested (*, !=, ++)
 ----------------------------------------------------------------------------------------------------*/
 
