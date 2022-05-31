@@ -3,7 +3,8 @@
 
 
 template<class T>
-class Queue{
+class Queue
+{
 public:
 
     /**
