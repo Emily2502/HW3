@@ -182,6 +182,7 @@ Queue<T>& Queue<T>::operator=(const Queue<T> &queue)
     deleteQueue(m_front);
     m_front = temp.m_front;
     m_back = temp.m_back;
+    return *this;
 }
 
 template<class T>
