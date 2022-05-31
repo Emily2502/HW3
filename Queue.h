@@ -97,6 +97,9 @@ public:
     */
     Iterator end() const;
 
+    /**
+     * New type for exceptions
+    */
     class EmptyQueue {};
 
 private:
@@ -295,11 +298,18 @@ template<class T>
 class Queue<T>::Iterator
 {
 public:
+
+    /**
+     * New type for exceptions
+    */
     class InvalidOperation {};
 
     T& operator*() const;
     Iterator& operator++();
     bool operator!=(const Iterator&) const;
+
+    Iterator(const Iterator&) = default;
+    ~Iterator() = default;
 
 private:
     Node* m_node;
@@ -356,11 +366,22 @@ template<class T>
 class Queue<T>::ConstIterator
 {
 public:
+
+    /**
+     * New type for exceptions
+    */
     class InvalidOperation {};
 
     const T& operator*() const;
     ConstIterator& operator++();
     bool operator!=(const Iterator&);
+
+    ConstIterator(const ConstIterator&) = default;
+    ~ConstIterator() = default;
+
+    /**
+     * C'tor to make ConstIterator
+    */
     ConstIterator(const Iterator& iterator) : m_node(iterator.m_node) {}
 
 private:
