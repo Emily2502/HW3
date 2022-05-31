@@ -166,18 +166,18 @@ Queue<T>& Queue<T>::operator=(const Queue<T> &queue)
 
     Queue<T> temp;
     Node* nodeToCopy = queue.m_front;
-    while (nodeToCopy != nullptr)
+    try
     {
-        try
+        while (nodeToCopy != nullptr)
         {
             temp.pushBack(nodeToCopy->m_data);
+            nodeToCopy = nodeToCopy->m_next;
         }
-        catch (...)
-        {
-            deleteQueue(temp.m_front);
-            throw;
-        }
-        nodeToCopy = nodeToCopy->m_next;
+    }
+    catch (...)
+    {
+        deleteQueue(temp.m_front);
+        throw;
     }
     deleteQueue(m_front);
     m_front = temp.m_front;
