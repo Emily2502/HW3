@@ -88,14 +88,14 @@ public:
      * @return
      *      new iterator that points to the start of a given queue
     */
-    Iterator begin();
+    Iterator begin() const;
 
     /**
      * End iterator for Queue
      * @return
      *      new iterator that points after the end of a given queue
     */
-    Iterator end();
+    Iterator end() const;
 
     class EmptyQueue {};
 
@@ -333,13 +333,13 @@ bool Queue<T>::Iterator::operator!=(const Iterator& iterator) const
 }
 
 template<class T>
-typename Queue<T>::Iterator Queue<T>::begin()
+typename Queue<T>::Iterator Queue<T>::begin() const
 {
     return Iterator(m_front);
 }
 
 template<class T>
-typename Queue<T>::Iterator Queue<T>::end()
+typename Queue<T>::Iterator Queue<T>::end() const
 {
     return Iterator(nullptr);
 }
@@ -354,14 +354,11 @@ template<class T>
 class Queue<T>::ConstIterator
 {
 public:
-    class InvalidOperation : public std::exception{};
+    class InvalidOperation {};
 
     const T& operator*() const;
     ConstIterator& operator++();
-    bool operator!=(const ConstIterator&);
     bool operator!=(const Iterator&);
-    ConstIterator& operator=(const Iterator&);
-    ConstIterator& operator=(const ConstIterator&);
     ConstIterator(const Iterator& iterator) : m_node(iterator.m_node) {}
 
 private:
@@ -370,41 +367,28 @@ private:
 };
 
 template<class T>
-typename Queue<T>::ConstIterator& Queue<T>::ConstIterator::operator=(const ConstIterator& iterator)
-{
-    m_node = iterator.m_node;
-    return *this;
-}
-
-template<class T>
-typename Queue<T>::ConstIterator& Queue<T>::ConstIterator::operator=(const Iterator& iterator)
-{
-    m_node = iterator.m_node;
-    return *this;
-}
-
-
-template<class T>
 const T& Queue<T>::ConstIterator::operator*() const
 {
+    if(m_node == nullptr)
+    {
+        throw InvalidOperation();
+    }
     return m_node->m_data;
 }
 
 template<class T>
 typename Queue<T>::ConstIterator& Queue<T>::ConstIterator::operator++()
 {
+    if(m_node == nullptr)
+    {
+        throw InvalidOperation();
+    }
     m_node = m_node->m_next;
     return *this;
 }
 
 template<class T>
 bool Queue<T>::ConstIterator::operator!=(const Iterator& iterator)
-{
-    return m_node != iterator.m_node;
-}
-
-template<class T>
-bool Queue<T>::ConstIterator::operator!=(const ConstIterator& iterator)
 {
     return m_node != iterator.m_node;
 }
