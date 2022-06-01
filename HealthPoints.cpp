@@ -4,7 +4,7 @@ const int MINIMUM_HP = 0;
 
 HealthPoints::HealthPoints(int hp)
 {
-    if(hp <= 0)
+    if(hp <= MINIMUM_HP)
     {
         throw InvalidArgument();
     }
